@@ -4,6 +4,7 @@ import './App.css'
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import PopularRewards from './components/PopularRewards'
+import LoyalCustomers from './components/LoyalCustomers'
 
 function App () {
   const theme = createTheme({
@@ -21,6 +22,7 @@ function App () {
         <Sidebar />
         <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
           <PopularRewards />
+          <LoyalCustomers />
         </Box>
       </Box>
     </ThemeProvider>
