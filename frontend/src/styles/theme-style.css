@@ -1,0 +1,20 @@
+:root {
+  /* Primary Colors */
+  --color-primary: #2e8b57;
+  --color-primary-hover: #247346;
+
+  /* Secondary Colors */
+  --color-secondary: #8b4513;
+  --color-secondary-hover: #6b3410;
+
+  /* Background Colors */
+  --color-background: #fff5e1;
+
+  /* Text Colors */
+  --color-text-primary: #434d56;
+  --color-text-secondary: rgba(0, 0, 0, 0.6);
+
+  /* Component Colors */
+  --color-icon-default: #434d56;
+  --color-icon-selected: #ffffff;
+}
