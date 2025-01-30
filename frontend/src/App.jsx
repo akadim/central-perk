@@ -1,18 +1,39 @@
 import { CssBaseline, ThemeProvider, Box, createTheme } from '@mui/material'
 
 import './App.css'
-import { useState } from 'react'
-import Sidebar from './components/Sidebar'
-import PopularRewards from './components/PopularRewards'
-import LoyalCustomers from './components/LoyalCustomers'
-import RewardCharts from './components/RewardCharts'
+
+import { createBrowserRouter, RouterProvider } from 'react-router'
+
+import Dashboard from './components/Dashboard'
+import Layout from './components/Layout'
+import RewardsPage from './components/RewardsPage'
 
 function App () {
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <Dashboard />,
+          index: true
+        },
+        {
+          path: '/rewards',
+          element: <RewardsPage />
+        }
+      ]
+    }
+  ])
   const theme = createTheme({
     palette: {
       primary: {
         main: '#2E8B57'
       }
+    },
+    shape: {
+      borderRadius: 16
     }
   })
 
@@ -20,12 +41,7 @@ function App () {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <Sidebar />
-        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-          <RewardCharts />
-          <PopularRewards />
-          <LoyalCustomers />
-        </Box>
+        <RouterProvider router={router} />
       </Box>
     </ThemeProvider>
   )

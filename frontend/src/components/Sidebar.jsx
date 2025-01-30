@@ -27,6 +27,7 @@ import gunther from '../assets/images/gunther.png'
 import centralperk from '../assets/images/central-perk.png'
 import { useState } from 'react'
 import '../styles/theme-style.css'
+import { useNavigate } from 'react-router'
 
 const IconWrapper = styled(Box)(({ selected }) => ({
   position: 'relative',
@@ -113,10 +114,10 @@ const HamburgerButton = styled(IconButton)(({ theme }) => ({
 
 const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
   const menuItems = [
-    { text: 'Home', icon: <Home />, selected: true },
-    { text: 'Rewards', icon: <CardGiftcard /> },
-    { text: 'Order History', icon: <History /> },
-    { text: 'Statistics', icon: <BarChart /> }
+    { text: 'Home', link: '/', icon: <Home />, selected: true },
+    { text: 'Rewards', link: '/rewards', icon: <CardGiftcard /> },
+    { text: 'Order History', link: '', icon: <History /> },
+    { text: 'Statistics', link: '', icon: <BarChart /> }
   ]
 
   return (
@@ -150,8 +151,8 @@ const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
           <StyledListItem
             key={menuItem.text}
             button
-            selected={menuItem.selected}
-            onClick={() => handleListItemClick(index)}
+            selected={selectedIndex === index}
+            onClick={() => handleListItemClick(menuItem.link, index)}
           >
             <IconWrapper
               className='icon-wrapper'
@@ -204,12 +205,14 @@ const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const navigate = useNavigate()
 
-  const handleListItemClick = index => {
+  const handleListItemClick = (link, index) => {
     setSelectedIndex(index)
     if (isMobile) {
       setMobileOpen(false)
     }
+    navigate(link)
   }
 
   const handleDrawerToggle = () => {
