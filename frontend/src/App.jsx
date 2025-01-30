@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider, Box, createTheme } from '@mui/material'
 import './App.css'
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
+import PopularRewards from './components/PopularRewards'
 
 function App () {
   const theme = createTheme({
@@ -18,7 +19,9 @@ function App () {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Sidebar />
-        <Box component='main' sx={{ flexGrow: 1, p: 3 }}></Box>
+        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+          <PopularRewards />
+        </Box>
       </Box>
     </ThemeProvider>
   )
