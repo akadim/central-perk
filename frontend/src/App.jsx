@@ -65,6 +65,38 @@ function App () {
       button: {
         textTransform: 'none'
       }
+    },
+    components: {
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            boxShadow: 'none !important',
+            '&:hover': {
+              boxShadow: 'none !important'
+            }
+          }
+        }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            boxShadow: 'none !important',
+            '&:hover': {
+              boxShadow: 'none !important'
+            }
+          }
+        }
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            boxShadow: 'none !important',
+            '&:hover': {
+              boxShadow: 'none !important'
+            }
+          }
+        }
+      }
     }
   })
 
