@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Drawer,
   IconButton,
   List,
@@ -25,9 +24,10 @@ import {
 
 import gunther from '../assets/images/gunther.png'
 import centralperk from '../assets/images/central-perk.png'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import '../styles/theme-style.css'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
+import { RoundedButton } from './ui/RoundedButton'
 
 const IconWrapper = styled(Box)(({ selected }) => ({
   position: 'relative',
@@ -62,46 +62,44 @@ const StyledListItem = styled(ListItem)(({ theme, selected }) => ({
   borderRadius: 70,
   transition: 'background-color 0.2s ease',
   textWrap: 'nowrap',
-  backgroundColor: selected ? 'var(--color-primary)' : 'transparent',
+  backgroundColor: selected ? theme.palette.primary.dark : 'transparent',
   cursor: 'pointer',
 
   '& .MuiListItemText-root': {
     marginLeft: theme.spacing(2),
     '& .MuiTypography-root': {
       fontSize: '0.9rem',
-      color: selected
-        ? 'var(--color-icon-selected)'
-        : 'var(--color-text-primary)'
+      color: selected ? 'white' : theme.palette.mainText
     }
   },
 
   '& .icon-wrapper': {
-    backgroundColor: 'var(--color-background)'
+    backgroundColor: theme.palette.secondary.light
   },
 
   '&:hover': {
-    backgroundColor: 'var(--color-primary)',
+    backgroundColor: theme.palette.primary.main,
     '& .icon-wrapper': {
-      backgroundColor: 'var(--color-background)'
+      backgroundColor: theme.palette.secondary.main
     },
     '& .MuiListItemIcon-root': {
-      color: 'var(--color-icon-default)'
+      color: theme.palette.mainText.main
     },
     '& .MuiListItemText-root': {
       '& .MuiTypography-root': {
-        color: 'var(--color-icon-selected)'
+        color: 'white'
       }
     }
   },
 
   '& .MuiListItemIcon-root': {
     minWidth: 'auto',
-    color: 'var(--color-icon-default)'
+    color: theme.palette.mainText.main
   }
 }))
 
 const HamburgerButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.dark,
   color: theme.palette.primary.contrastText,
   '&:hover': {
     backgroundColor: theme.palette.primary.dark
@@ -112,13 +110,15 @@ const HamburgerButton = styled(IconButton)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1
 }))
 
+const menuItems = [
+  { text: 'Home', link: '/', icon: <Home />, selected: true },
+  { text: 'Rewards', link: '/rewards', icon: <CardGiftcard /> },
+  { text: 'Order History', link: '/', icon: <History /> },
+  { text: 'Statistics', link: '/', icon: <BarChart /> }
+]
+
 const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
-  const menuItems = [
-    { text: 'Home', link: '/', icon: <Home />, selected: true },
-    { text: 'Rewards', link: '/rewards', icon: <CardGiftcard /> },
-    { text: 'Order History', link: '', icon: <History /> },
-    { text: 'Statistics', link: '', icon: <BarChart /> }
-  ]
+  const theme = useTheme()
 
   return (
     <Box
@@ -126,18 +126,16 @@ const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'var(--color-background)',
+        backgroundColor: theme.palette.secondary.main,
         width: { xs: 280, md: 'auto' }
       }}
     >
       <StyledLogoWrapper>
         <StyledLogo src={gunther} alt='Owner' />
-        <Typography variant='h6' color='primary' fontWeight='bold'>
+        <Typography variant='h6' color='primary.dark' fontWeight='bold'>
           Gunther
         </Typography>
-        <Typography variant='body2' color='var(--color-text-secondary)'>
-          Owner
-        </Typography>
+        <Typography variant='body2'>Owner</Typography>
       </StyledLogoWrapper>
 
       <List
@@ -162,8 +160,8 @@ const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
                 sx={{
                   color:
                     selectedIndex === index
-                      ? 'var(--color-icon-selected)'
-                      : 'var(--color-icon-default)',
+                      ? 'white'
+                      : theme.palette.mainText.main,
                   fontSize: 20
                 }}
               >
@@ -181,20 +179,16 @@ const SidebarContent = ({ selectedIndex, handleListItemClick }) => {
           alt='Coffee Shop Logo'
           style={{ width: 100, marginBottom: 16 }}
         />
-        <Button
+        <RoundedButton
           variant='contained'
           startIcon={<Logout />}
           fullWidth
           sx={{
-            backgroundColor: 'var(--color-secondary)',
-            borderRadius: 50,
-            '&:hover': {
-              backgroundColor: 'var(--color-secondary-hover)'
-            }
+            backgroundColor: 'secondary.dark'
           }}
         >
           Logout
-        </Button>
+        </RoundedButton>
       </Box>
     </Box>
   )
@@ -206,6 +200,16 @@ const Sidebar = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useLayoutEffect(() => {
+    const currentIndex = menuItems.findIndex(
+      item => item.link === location.pathname
+    )
+    if (currentIndex !== -1) {
+      setSelectedIndex(currentIndex)
+    }
+  }, [location])
 
   const handleListItemClick = (link, index) => {
     setSelectedIndex(index)
@@ -264,7 +268,15 @@ const Sidebar = () => {
           component='nav'
           sx={{
             width: { md: 280 },
-            flexShrink: { md: 0 }
+            flexShrink: { md: 0 },
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            backgroundColor: theme.palette.secondary.main,
+            borderRight: '1px solid',
+            borderColor: 'divider',
+            zIndex: theme.zIndex.drawer
           }}
         >
           <SidebarContent

@@ -1,62 +1,80 @@
-import { Box, Typography, Avatar, Button, Grid } from '@mui/material'
-
-// Mock data for the Loyal Customers, it will be populated later
-const customers = [
-  {
-    id: 1,
-    name: 'Mike',
-    avatar: '/mike-avatar.jpg'
-  },
-  {
-    id: 2,
-    name: 'Emily',
-    avatar: '/emily-avatar.jpg'
-  },
-  {
-    id: 3,
-    name: 'Rachel',
-    avatar: '/rachel-avatar.jpg'
-  },
-  {
-    id: 4,
-    name: 'Chandler',
-    avatar: '/chandler-avatar.jpg'
-  }
-]
+import {
+  Box,
+  Typography,
+  Avatar,
+  Button,
+  Stack,
+  Container
+} from '@mui/material'
+import { useSelector } from 'react-redux'
+import { selectCustomers } from '../store/customersSlice'
 
 function LoyalCustomers () {
-  return (
-    <Box>
-      <Box sx={{ display: 'flex', mb: 2, gap: 2 }}>
-        <Typography variant='h6' fontWeight={'bold'}>
-          Loyal Customers
-        </Typography>
-        <Button color='primary'>
-          <Typography fontWeight='bold'>View All</Typography>
-        </Button>
-      </Box>
+  const customers = useSelector(selectCustomers)
 
-      <Grid container spacing={5}>
-        {customers.map(customer => (
-          <Grid item key={customer.id}>
-            <Box sx={{ textAlign: 'center' }}>
+  return (
+    <Container>
+      <Box sx={{ ml: 3 }}>
+        <Box sx={{ display: 'flex', mb: 2, gap: 2 }}>
+          <Typography variant='h6' fontWeight={'bold'}>
+            Loyal Customers
+          </Typography>
+          <Button sx={{ color: 'primary.dark' }}>
+            <Typography fontWeight='bold'>View all</Typography>
+          </Button>
+        </Box>
+
+        <Stack
+          direction='row'
+          spacing={0}
+          sx={{
+            flexWrap: 'wrap',
+            mx: { xs: -1, sm: -5 },
+            '& > *': {
+              padding: { xs: 1, sm: 0.5 },
+              width: {
+                xs: '50%',
+                sm: '10%'
+              }
+            },
+            pl: 3
+          }}
+        >
+          {customers.map(customer => (
+            <Box
+              key={customer.id}
+              sx={{
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
               <Avatar
-                src={customer.avatar}
+                src={customer.image}
                 sx={{
-                  width: 64,
-                  height: 64,
+                  width: 56,
+                  height: 56,
                   mb: 1,
                   border: 2,
-                  borderColor: '#4CAF50'
+                  borderColor: 'success.light'
                 }}
                 alt={customer.name}
               />
-              <Typography variant='body2'>{customer.name}</Typography>
+              <Typography
+                variant='body2'
+                sx={{
+                  fontWeight: 500,
+                  color: 'text.secondary'
+                }}
+              >
+                {customer.name}
+              </Typography>
             </Box>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+          ))}
+        </Stack>
+      </Box>
+    </Container>
   )
 }
 

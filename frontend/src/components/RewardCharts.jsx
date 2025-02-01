@@ -1,27 +1,9 @@
-import {
-  Box,
-  Card,
-  CircularProgress,
-  Stack,
-  styled,
-  Tooltip,
-  Typography
-} from '@mui/material'
-import { Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
+import { Box, Card, Stack, styled, Typography, useTheme } from '@mui/material'
 
-// Mock data for the sales chart, it will be populated later
-const salesData = [
-  { month: '01', sales: 4000 },
-  { month: '02', sales: 4500 },
-  { month: '03', sales: 4200 },
-  { month: '04', sales: 4800 },
-  { month: '05', sales: 4600 },
-  { month: '06', sales: 5000 },
-  { month: '07', sales: 5200 },
-  { month: '08', sales: 5400 },
-  { month: '09', sales: 5800 },
-  { month: '10', sales: 6000 }
-]
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
+
+import LoyaltyIcon from '@mui/icons-material/Loyalty'
+import SalesChart from './SalesChart'
 
 const IndicatorWrapper = styled(Box)(({ theme }) => ({
   display: 'inline-flex',
@@ -31,65 +13,79 @@ const IndicatorWrapper = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-const ProgressWrapper = styled(Box)({
-  position: 'relative',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-})
-
-const PointsText = styled(Typography)(({ theme }) => ({
-  position: 'absolute',
-  color: theme.palette.success.main,
-  fontWeight: 600
-}))
-
 const StyledCard = styled(Card)(({ theme }) => ({
-  backgroundColor: 'var(--color-background)',
-  margin: 5
+  backgroundColor: theme.palette.secondary.light,
+  margin: 5,
+  flex: 1
 }))
 
 const RewardCharts = () => {
+  const theme = useTheme()
+
+  const redeemedPoints = 450
+  const rewardedPoints = 950
+
   return (
     <Stack
-      direction={'row'}
+      direction={{ xs: 'column', md: 'row' }}
       spacing={3}
       sx={{
         p: 2,
-        backgroundColor: '#4CAF50',
+        backgroundColor: theme.palette.primary.dark,
         color: 'white',
-        borderRadius: 4,
+        borderRadius: 1,
         mb: 4
       }}
     >
-      <Box>
+      <Box display={'flex'}>
         <Stack direction='column'>
           <StyledCard>
             <IndicatorWrapper>
               <Typography
                 variant='body2'
                 sx={theme => ({
-                  color: theme.palette.success.main,
-                  fontWeight: 500
+                  color: 'primary.dark',
+                  textWrap: 'normal'
                 })}
               >
                 Redeem Points this week
               </Typography>
-              <ProgressWrapper>
-                <CircularProgress
-                  variant='determinate'
-                  value={75} // Adjust this value to change the progress
-                  size={48}
-                  thickness={4}
-                  sx={theme => ({
-                    color: theme.palette.success.main,
-                    '.MuiCircularProgress-circle': {
+              <Box style={{ width: 75, height: 75 }}>
+                <CircularProgressbarWithChildren
+                  value={(redeemedPoints / 1500) * 100}
+                  styles={{
+                    path: {
+                      stroke: theme.palette.primary.dark,
                       strokeLinecap: 'round'
+                    },
+                    trail: {
+                      stroke: theme.palette.primary.light
+                    },
+                    text: {
+                      fill: theme.palette.mainRed.main
                     }
-                  })}
-                />
-                <PointsText variant='body1'>450</PointsText>
-              </ProgressWrapper>
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      color: theme.palette.primary.dark,
+                      fontWeight: 'regular'
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 22,
+                        marginTop: -5
+                      }}
+                    >
+                      <span>{redeemedPoints}</span>
+                    </div>
+                    <LoyaltyIcon sx={{ fontSize: 18 }} />
+                  </Box>
+                </CircularProgressbarWithChildren>
+              </Box>
             </IndicatorWrapper>
           </StyledCard>
           <StyledCard>
@@ -97,47 +93,58 @@ const RewardCharts = () => {
               <Typography
                 variant='body2'
                 sx={theme => ({
-                  color: theme.palette.success.main,
+                  color: theme.palette.mainRed.light,
                   fontWeight: 500
                 })}
               >
-                Redeem Points this week
+                Rewarded Points this week
               </Typography>
-              <ProgressWrapper>
-                <CircularProgress
-                  variant='determinate'
-                  value={75} // Adjust this value to change the progress
-                  size={48}
-                  thickness={4}
-                  sx={theme => ({
-                    color: theme.palette.success.main,
-                    '.MuiCircularProgress-circle': {
+              <Box style={{ width: 75, height: 75 }}>
+                <CircularProgressbarWithChildren
+                  value={(rewardedPoints / 1500) * 100}
+                  styles={{
+                    path: {
+                      stroke: theme.palette.mainRed.light,
                       strokeLinecap: 'round'
+                    },
+                    trail: {
+                      stroke: theme.palette.mainRed.light,
+                      opacity: 0.2
+                    },
+                    text: {
+                      fill: theme.palette.mainRed.light
                     }
-                  })}
-                />
-                <PointsText variant='body1'>450</PointsText>
-              </ProgressWrapper>
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      color: theme.palette.mainRed.main,
+                      fontWeight: 'regular'
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 22,
+                        marginTop: -5
+                      }}
+                    >
+                      <span>{rewardedPoints}</span>
+                    </div>
+                    <LoyaltyIcon sx={{ fontSize: 18 }} />
+                  </Box>
+                </CircularProgressbarWithChildren>
+              </Box>
             </IndicatorWrapper>
           </StyledCard>
         </Stack>
       </Box>
       {/* Sales Chart */}
-      <Box>
-        <Card sx={{ height: 200 }}>
-          <ResponsiveContainer width='100%' height='100%'>
-            <LineChart
-              data={salesData}
-              width={500}
-              height={200}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <XAxis dataKey='month' tickLine={false} axisLine={false} />
-              <Tooltip />
-              <Line type='monotone' dataKey='sales' strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </Card>
+      <Box sx={{ flex: 1 }}>
+        <StyledCard sx={{ height: 'calc(100% - 10px)' }}>
+          <SalesChart />
+        </StyledCard>
       </Box>
     </Stack>
   )
