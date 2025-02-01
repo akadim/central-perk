@@ -40,7 +40,7 @@ const TooltipBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1.5),
   border: '1px solid rgba(255, 255, 255, 0.1)',
   boxShadow: theme.shadows[4],
-  minWidth: 150
+  minWidth: 70
 }))
 
 const CustomTooltip = ({ active, payload, label }) => {

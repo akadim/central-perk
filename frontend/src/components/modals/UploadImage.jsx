@@ -62,44 +62,67 @@ export default function UploadImage ({ currentImage, onImageChange }) {
       }}
       component='label'
     >
-      {currentImage ? (
-        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-          <Box
-            component='img'
-            src={currentImage}
-            alt='Selected reward'
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              p: 2
-            }}
-          />
-          <IconButton
-            onClick={handleRemoveImage}
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-              bgcolor: 'rgba(255, 255, 255, 0.8)',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.9)'
-              }
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      ) : (
-        <>
-          <Box>
-            <PhotoOutlined
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {currentImage && (
+          <>
+            <Box
+              component='img'
+              src={currentImage}
+              alt='Selected reward'
               sx={{
-                fontSize: { xs: 40, sm: 50 },
-                color: 'primary.dark'
+                width: '100%',
+                height: '70%',
+                objectFit: 'contain',
+                p: 2
               }}
             />
-          </Box>
+            <IconButton
+              onClick={handleRemoveImage}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                bgcolor: 'rgba(255, 255, 255, 0.8)',
+                '&:hover': {
+                  bgcolor: 'rgba(255, 255, 255, 0.9)'
+                }
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </>
+        )}
+
+        <Box
+          sx={{
+            mt: currentImage ? 1 : 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: currentImage ? '30%' : '100%'
+          }}
+        >
+          {!currentImage && (
+            <Box>
+              <PhotoOutlined
+                sx={{
+                  fontSize: { xs: 40, sm: 50 },
+                  color: 'primary.dark'
+                }}
+              />
+            </Box>
+          )}
           <Box
             sx={{
               display: 'flex',
@@ -127,19 +150,21 @@ export default function UploadImage ({ currentImage, onImageChange }) {
               Upload image
             </Typography>
           </Box>
-          <Typography
-            color='textSecondary'
-            align='center'
-            sx={{
-              fontSize: { xs: '0.8rem', sm: '0.875rem' },
-              mt: 1,
-              px: 2
-            }}
-          >
-            Upload a cover image for your product.
-          </Typography>
-        </>
-      )}
+          {!currentImage && (
+            <Typography
+              color='textSecondary'
+              align='center'
+              sx={{
+                fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                mt: 1,
+                px: 2
+              }}
+            >
+              Upload a cover image for your product.
+            </Typography>
+          )}
+        </Box>
+      </Box>
       <input
         type='file'
         accept='image/*'
