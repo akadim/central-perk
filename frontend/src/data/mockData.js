@@ -20,12 +20,12 @@ export const rewardsData = [
   {
     id: 1,
     title: 'Iced Mocha',
-    image: '/iced-mocha.png'
+    image: 'images/iced-mocha.jpg'
   },
   {
     id: 2,
     title: 'Cookie Duo Black',
-    image: '/cookie.png'
+    image: 'images/cookie.png'
   },
   {
     id: 3,

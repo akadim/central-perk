@@ -6,12 +6,15 @@ import {
   Stack,
   Typography
 } from '@mui/material'
-import { categoryData } from '../data/mockData'
+import { useSelector } from 'react-redux'
+import { selectCategories } from '../store/categoriesSlice'
 
 const CategoriesList = () => {
+  const categories = useSelector(selectCategories)
+
   return (
     <Box mb={6}>
-      <Typography variant='h5' component='h2' gutterBottom>
+      <Typography variant='h5' component='h2' fontWeight={'bold'} gutterBottom>
         Categories
       </Typography>
       <Stack
@@ -19,7 +22,7 @@ const CategoriesList = () => {
         spacing={2}
         sx={{ width: '100%' }}
       >
-        {categoryData.map(category => (
+        {categories.map(category => (
           <Card
             key={category.id}
             sx={{
