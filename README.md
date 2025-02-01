@@ -60,6 +60,8 @@ There are things that I want to point out about the Mockup design and the final 
 - The green color used in "Redeem Points this week" (#55A672) was not specified in the design system, so I chose a different shade of green (#2E8B57).
 - The font size for the text was not specified in the design system, which resulted in some multi-lined sentences (like "Redeem Points this week") being written into a single line.
 - The reward image uploads happen locally without involving a backend, as I later discovered that using a cloud service (e.g., Cloudinary) requires API keys, which are private data. Therefore, the images are not persistent, and the same applies to the newly created, updated, or deleted reward data.
+- I was unable to find certain icons in the mockup, such as the coffee bean icon, so I replaced them with different icons that convey the same meaning.
+- There is a bug where the chart re-renders when you mouse hover over it. Fixing this issue would take some time, so I opted to leave it as is to save time.
 
 ## Technical Documentation
 
