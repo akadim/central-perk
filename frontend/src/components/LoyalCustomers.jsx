@@ -64,7 +64,7 @@ function LoyalCustomers () {
               <Typography
                 variant='body2'
                 sx={{
-                  fontWeight: 500,
+                  fontWeight: 'bold',
                   color: 'text.secondary'
                 }}
               >
