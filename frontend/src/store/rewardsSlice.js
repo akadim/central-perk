@@ -57,7 +57,7 @@ const rewardsSlice = createSlice({
   initialState,
   reducers: {
     addReward: (state, action) => {
-      state.rewards.push(action.payload)
+      state.rewards = [...state.rewards, action.payload]
     },
     removeReward: (state, action) => {
       state.rewards = state.rewards.filter(
@@ -65,12 +65,9 @@ const rewardsSlice = createSlice({
       )
     },
     updateReward: (state, action) => {
-      const index = state.rewards.findIndex(
-        reward => reward.id === action.payload.id
+      state.rewards = state.rewards.map(reward =>
+        reward.id === action.payload.id ? action.payload : reward
       )
-      if (index !== -1) {
-        state.rewards[index] = action.payload
-      }
     }
   }
 })
