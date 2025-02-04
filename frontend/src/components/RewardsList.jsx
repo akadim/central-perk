@@ -1,24 +1,14 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
-import { useState } from 'react'
-import { RewardModal } from './modals/RewardModal'
 import RewardCard from './ui/RewardCard'
 import { useSelector } from 'react-redux'
 import { selectRewards } from '../store/rewardsSlice'
+import { memo } from 'react'
 
-const RewardsList = () => {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [modalMode, setModalMode] = useState('add')
-  const [selectedReward, setSelectedReward] = useState(null)
-
+const RewardsList = memo(({ onShowModalForm }) => {
   const rewards = useSelector(selectRewards)
 
-  const showRewardForm = reward => {
-    console.log('Selected Reward = ', reward)
-    setModalMode(reward ? 'update' : 'add')
-    setSelectedReward(reward ?? null)
-    setModalOpen(true)
-  }
+  console.log('Rewards = ', rewards)
 
   return (
     <Box>
@@ -51,7 +41,7 @@ const RewardsList = () => {
             variant='contained'
             startIcon={<AddCircle />}
             sx={{ backgroundColor: 'primary.dark', borderRadius: 10 }}
-            onClick={() => showRewardForm(null)}
+            onClick={() => onShowModalForm(null)}
           >
             Add Rewards
           </Button>
@@ -65,19 +55,15 @@ const RewardsList = () => {
             <RewardCard
               reward={reward}
               editMode={true}
-              onShowModalForm={showRewardForm}
+              onShowModalForm={onShowModalForm}
             />
           </Grid>
         ))}
       </Grid>
-      <RewardModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        mode={modalMode}
-        initialData={selectedReward}
-      />
     </Box>
   )
-}
+})
+
+RewardsList.displayName = 'RewardsList'
 
 export default RewardsList
